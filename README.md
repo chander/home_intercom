@@ -16,9 +16,9 @@ Once you have that setup, you'll need to add a set of firewall rules to
 /etc/iptables/rules.v4, like the following (I stick it just below the 
 port 443 rule):
 
-'''
+```
 -A INPUT -p tcp -m tcp --dport 7443 -j ACCEPT
-'''
+```
 
 This rule allows the WebRTC server to properly support inbound connections.
 
@@ -28,11 +28,11 @@ Next, go into the fusionpbx UI, and make the following changes:
     - Edit "global_codec_prefs" and add ",VP8,VP9" to the end of the value.
     - Edit "outbound_codec_prefs" and add ",VP8,VP9" to the end of the value.
 
-'''
+```
 Despite documentation you might read to the contrary, with the latest version of FreeSwitch the VP8 and VP9
 codecs are compiled into the server, you need not add/enable any modules in order to get the
 support.  Just add them into the codecs and you will be set.
-'''
+```
 
     - Under "SIP Profile: External", make the following changes/additions (if it's already there, change it
       if not, add it!)
