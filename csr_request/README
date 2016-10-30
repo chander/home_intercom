@@ -1,0 +1,5 @@
+# Chander Ganesan <chander@gridgeo.com>
+# Some simple code to generate a CSR request for this stuff.
+# Note that you really ought to have a signed certificate (I use
+# namecheap.com, but there are TONS of others, and it's only like
+# $10/year, so why not?
