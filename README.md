@@ -28,11 +28,11 @@ Next, go into the fusionpbx UI, and make the following changes:
     - Edit "global_codec_prefs" and add ",VP8,VP9" to the end of the value.
     - Edit "outbound_codec_prefs" and add ",VP8,VP9" to the end of the value.
 
-```
-Despite documentation you might read to the contrary, with the latest version of FreeSwitch the VP8 and VP9
-codecs are compiled into the server, you need not add/enable any modules in order to get the
-support.  Just add them into the codecs and you will be set.
-```
+
+> Despite documentation you might read to the contrary, with the latest version of FreeSwitch the VP8 and VP9
+> codecs are compiled into the server, you need not add/enable any modules in order to get the
+> support.  Just add them into the codecs and you will be set.
+
 
     - Under "SIP Profile: External", make the following changes/additions (if it's already there, change it
       if not, add it!)
@@ -60,16 +60,17 @@ certificates setup.  That's what this section is about:
 
 2. Create a new file called agent.pem, like so:
 
-   - cat <CERTIFICATE>.crt > agent.pem
-   - cat <CERTIFICATE>.key >> agent.pem
-   - cat <CERTIFICATE>.chain >> agent.pem
+   - ```cat <CERTIFICATE>.crt > agent.pem```
+   - ```cat <CERTIFICATE>.key >> agent.pem```
+   - ```cat <CERTIFICATE>.chain >> agent.pem```
 
 3.  Copy the resulting file to /etc/freeswitch/tls:
    
-   - sudo cp agent.pem /etc/freeswitch/tls
-   - sudo cp agent.pem /etc/freeswitch/tls/wss.pem
-   - sudo chown www-data.www-data /etc/freeswitch/{agent,wss}.pem
-   - sudo chmod o-rwx /etc/freeswitch/{agent,wss}.pem
+
+   - ```sudo cp agent.pem /etc/freeswitch/tls```
+   - ```sudo cp agent.pem /etc/freeswitch/tls/wss.pem```
+   - ```sudo chown www-data.www-data /etc/freeswitch/{agent,wss}.pem```
+   - ```sudo chmod o-rwx /etc/freeswitch/{agent,wss}.pem```
 
 4.  Setup your nginx config for fusionpbx so it uses the same signed
     certificate, so then visiting the site in your web browser won't
@@ -79,12 +80,13 @@ certificates setup.  That's what this section is about:
       other places that the files could go also, but I just stuck them all in
       the same directory.)
    - Make sure the key file has www-data.www-data ownership, and isn't world readable.
-   - sudo vi /etc/nginx/sites-available/fusionpbx
-   - ensure the following lines are set to match (modify as needed:)
-    
+   - sudo vi /etc/nginx/sites-available/fusionpbx ensure the following lines are set to match (modify as needed:)
+
+```    
         ssl_certificate         /etc/ssl/private/<CERTIFICATE>crt;
-	ssl_certificate_key     /etc/ssl/private/<CERTIFICATE>.key;
+        ssl_certificate_key     /etc/ssl/private/<CERTIFICATE>.key;
         ssl_trusted_certificate /etc/ssl/private/<CERTIFICATE>.ca-bundle;
+```
 
 ####
 Restarting the Server
@@ -101,21 +103,26 @@ Verifying stuff works
 
 1.  You should see a 'WSS-BIND-URL' when looking at the cli output:
 
+```
      fs_cli -x 'sofia status profile internal' | grep WSS-BIND-URL
+```
 
 2.   The netstat output should show you that freeswitch listens on ports 7443,
      5061, 5060, 5081, 5080 and 8021 (note that 8021 is for signalling, and it 
      only listens on 127.0.0.1):
-  
+     
+     ```
      sudo netstat -tapn|grep freeswitch
+     ```
 
 3.  You should be able to connect with openssl to the various ports (and find that
     the certs are valid:)
 
+```
     openssl s_client -connect <HOSTNAME>:443
     openssl s_client -connect <HOSTNAME>:5061
     openssl s_client -connect <HOSTNAME>:5081
     openssl s_client -connect <HOSTNAME>:7443
-
+```
 
 
