@@ -65,14 +65,17 @@ certificates setup.  That's what this section is about:
    - ```cat <CERTIFICATE>.chain >> agent.pem```
 
 3.  Copy the resulting file to /etc/freeswitch/tls:
-   
 
    - ```sudo cp agent.pem /etc/freeswitch/tls```
    - ```sudo cp agent.pem /etc/freeswitch/tls/wss.pem```
    - ```sudo chown www-data.www-data /etc/freeswitch/{agent,wss}.pem```
    - ```sudo chmod o-rwx /etc/freeswitch/{agent,wss}.pem```
+   
+4. Copy the CA file (provided by you cert signing authority) to /etc/freeswitch/tls/cafile.pem:
 
-4.  Setup your nginx config for fusionpbx so it uses the same signed
+  - ```sudo cp <CERTFILE> /etc/freeswitch/tls/cafile.pem```
+
+5.  Setup your nginx config for fusionpbx so it uses the same signed
     certificate, so then visiting the site in your web browser won't
     result in untrusted server/unsigned key warnings.
  
